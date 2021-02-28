@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import styles from './App.module.css'
+import { Cards, Chart, CountryPicker } from './components';
+import {fetchData} from './api/';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  
+  const [data, setData]= useState();
+
+  useEffect(() => {
+    dataLoading();
+  }, [])
+
+
+  if(!data){
+    return "Loading!!"
+  }
+
+    return (
+      <div className={styles.container}>
+        <Cards data ={data}></Cards>
+        <Chart data={data}></Chart>
+        <CountryPicker data={data}></CountryPicker>
+
+      </div>
+    );
+
+  async function dataLoading(){
+    const data = await fetchData();
+    setData(data)
+    
+  }
 }
+
 
 export default App;
