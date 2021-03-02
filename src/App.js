@@ -6,11 +6,18 @@ import {fetchData} from './api/';
 function App() {
   
   const [data, setData]= useState();
+  const [selectedCountry, setCountry] = useState();
 
   useEffect(() => {
     dataLoading();
   }, [])
 
+  const handleCountryChange = async (country) => {
+    console.log(country)
+    setCountry(country);
+    const data = await fetchData(country);
+    setData(data);
+  }
 
   if(!data){
     return "Loading!!"
@@ -18,9 +25,10 @@ function App() {
 
     return (
       <div className={styles.container}>
+        <img className={styles.image} alt="COVID-19" src="https://i.ibb.co/7QpKsCX/image.png"/>
         <Cards data ={data}></Cards>
-        <Chart data={data}></Chart>
-        <CountryPicker data={data}></CountryPicker>
+        <CountryPicker data={data} handleCountryChange={handleCountryChange}></CountryPicker>
+        <Chart data={data} country ={selectedCountry} ></Chart>
 
       </div>
     );

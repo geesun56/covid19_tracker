@@ -14,7 +14,7 @@ const Cards = (props)  => {
         <div className={styles.container}>
             <Grid container spacing={3} justify="center">
                 
-                <Grid item component={Card} xs={12} md={6} className={cx(styles.card, styles.infected)}>
+                <Grid item component={Card} xs={12} md={4} className={cx(styles.card, styles.infected)}>
                 <CardContent>
                     <Typography color="secondary" gutterBottom>Infected</Typography>
                     <Typography variant="h5">
@@ -25,7 +25,7 @@ const Cards = (props)  => {
                 </CardContent>
                 </Grid>
 
-                <Grid item component={Card} xs={12} md={3} className={cx(styles.card, styles.recovered)}>
+                <Grid item component={Card} xs={12} md={4} className={cx(styles.card, styles.recovered)}>
                 <CardContent>
                     <Typography color="secondary" gutterBottom>Recovered</Typography>
                     <Typography variant="h5">
@@ -36,7 +36,7 @@ const Cards = (props)  => {
                 </CardContent>
                 </Grid>
 
-                <Grid item component={Card} xs={12} md={3} className={cx(styles.card, styles.deaths)}>
+                <Grid item component={Card} xs={12} md={4} className={cx(styles.card, styles.deaths)}>
                 <CardContent>
                     <Typography color="secondary" gutterBottom>Deaths</Typography>
                     <Typography variant="h5">
