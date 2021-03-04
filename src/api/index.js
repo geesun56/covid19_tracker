@@ -1,17 +1,20 @@
 import axios from 'axios'; //request api calls
+import bent from 'bent';
 
-const url = 'https://covid19.mathdro.id/api';
+const case_url = 'https://covid19.mathdro.id/api';
+const country_url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/locations.csv';
+const vaccine_url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.json';
 
 export const fetchData = async (country) => {
 
-    let accessUrl = url;
+    let access_url = case_url;
 
     if(country){
-        accessUrl = `${url}/countries/${country}`
+        access_url = `${case_url}/countries/${country}`
     }
 
     try{
-        const { data: {confirmed, recovered, deaths, lastUpdate } } = await axios.get(accessUrl);
+        const { data: {confirmed, recovered, deaths, lastUpdate } } = await axios.get(access_url);
 
         // const modifiedData = {
         //     confirmed,
@@ -30,7 +33,7 @@ export const fetchData = async (country) => {
 export const fetchDailyData = async () => {
 
     try{
-        const {data} = await axios.get(`${url}/daily`)
+        const {data} = await axios.get(`${case_url}/daily`)
 
         return data
     }catch(error){
@@ -40,7 +43,7 @@ export const fetchDailyData = async () => {
 
 export const fetchCountries = async () => {
     try{
-        const {data: {countries}} = await axios.get(`${url}/countries`);
+        const {data: {countries}} = await axios.get(`${case_url}/countries`);
         
         return countries.map((con) => con.name)
 
@@ -50,3 +53,25 @@ export const fetchCountries = async () => {
     }
 }
 
+export const fetchVaccineStatus = async (keyword) => {
+    
+    if(keyword == 'country'){
+        const bent = require('bent');
+        const getString = bent('string');
+        const csv = require('csvtojson')
+        
+        
+        const data = await csv().fromString(await getString(country_url)).then((obj) => {return obj})
+        console.log('***countries***')
+        console.log(data)
+        return data
+    }else if(keyword == 'vaccination'){
+        const {data} = await axios.get(vaccine_url);
+        console.log('***Vaccination***')
+        console.log(data)
+        return data
+    }else{
+        console.log('Invalid Access!')
+    }
+
+}
