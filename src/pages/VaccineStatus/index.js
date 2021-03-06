@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import VaccineCards from '../../components/VaccineCards/';
 import { fetchVaccineStatus } from '../../api';
 import {CountryPicker} from '../../components/';
+import VaccineImage from '../../assets/images/vaccine_image.jpg';
+import VaccineChart from '../../components/VaccineChart/'
 
 const useStyles = makeStyles(() => ({
   
@@ -27,16 +29,20 @@ const useStyles = makeStyles(() => ({
     
   }));
 
+  
+
 export default function VaccineStatus(){
     const classes = useStyles();
     const [countryData, setCountryData] = useState(); 
     const [vaccineData, setVaccineData] = useState();
     const [worldData, setWorldData] = useState(); 
     const [country, setCountry] = useState();
+    const [graphData, setGraphData] = useState();
 
     useEffect(() => {
         fetchData();
         
+
     }, [])
 
 
@@ -48,9 +54,10 @@ export default function VaccineStatus(){
     if(worldData && vaccineData && countryData){
         return(
             <div className={classes.container}>
-                <img className={classes.image} alt="COVID-19" src="https://www.dhd10.org/wp-content/uploads/2020/12/covid19_Vaccine_Header.jpg"/>
+                <img className={classes.image} alt="COVID-19" src={VaccineImage}/>
             <VaccineCards worldData={worldData} countryData ={countryData} vaccineData={vaccineData}/>
-            <CountryPicker data={countryData.map((c)=> c.location)} handleCountryChange={handleCountryChange}></CountryPicker>
+            <CountryPicker countries={vaccineData.map((c)=> c.country)} handleCountryChange={handleCountryChange}></CountryPicker>
+            <VaccineChart data = {vaccineData} country={country}/>
             </div>
         );
     }else{
@@ -61,11 +68,13 @@ export default function VaccineStatus(){
     async function fetchData(){
         const cData = await fetchVaccineStatus('country')
         const vData = await fetchVaccineStatus('vaccination')
-        const wData = vData[119].data
-
+        const wData = vData.find(r => r.country == 'World')
+        
         setVaccineData(vData)
-        setWorldData(wData)
+        setWorldData(wData.data)
         setCountryData(cData)
-            
+
     }
+
+    
 }

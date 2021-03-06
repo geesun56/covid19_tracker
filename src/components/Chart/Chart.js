@@ -34,6 +34,12 @@ const Chart = (props)  => {
                 fill: true
             }]
         }}
+        options= {{
+            title: {
+                display: true,
+                text: 'Global COVID-19 Status'
+            }
+                }}
         />): null
     )
 
