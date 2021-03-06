@@ -2,3 +2,14 @@
     width: 100%;
     margin-bottom: 30px !important;
 }
+
+.searchBar{
+    width: 500px;
+
+}
+
+@media(max-width: 770px){
+    .searchBar{
+        width: 50vw
+    }
+}

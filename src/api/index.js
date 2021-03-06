@@ -62,13 +62,11 @@ export const fetchVaccineStatus = async (keyword) => {
         
         
         const data = await csv().fromString(await getString(country_url)).then((obj) => {return obj})
-        console.log('***countries***')
-        console.log(data)
+        
         return data
     }else if(keyword == 'vaccination'){
         const {data} = await axios.get(vaccine_url);
-        console.log('***Vaccination***')
-        console.log(data)
+        
         return data
     }else{
         console.log('Invalid Access!')

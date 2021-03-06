@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+
 import {Toolbar} from '@material-ui/core';
-
-
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,42 +17,71 @@ const useStyles = makeStyles((theme) => ({
   },
   spacer:{
     width: 'inherit',
-    height: '112px'
+    height: '48px',
+    "@media (max-width: 770px)":{
+      height: '100px'
+    }
+  },
+  title:{
+    flexGrow: 1,
+    "@media (max-width: 770px)":{
+      width: '100%',
+      padding: '15px 0 5px 20px'
+    }
+  },
+
+  tabs:{
+    "@media (max-width: 770px)":{
+      alignSelf:'flexEnd'
+      
+    }
+  },
+  toolbar:{
+    minHeight: '48px',
+    
+    "@media (max-width: 770px)":{
+      alignSelf:'flexEnd',
+      display: 'block',
+      paddingLeft: 0
+    }
   }
 }));
 
-export default function TabsWrappedLabel() {
+        
+export default function TabsWrappedLabel(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState('one');
+  const {menu, setMenu} = props;
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+
+  const handleChange = (event, newMenu) => {
+    setMenu(newMenu);
+    console.log(newMenu)
   };
 
   return (
     <div className={classes.root}>
       
       <AppBar color="primary" position="fixed">
-      <Toolbar>
+      <Toolbar className={classes.toolbar} >
       <Typography variant="h6" className={classes.title}>
-            COVID-19 Tracker
+            COVID-19 Tracker 
           </Typography>
-      </Toolbar>
-        <Tabs  value={value} onChange={handleChange} aria-label="menu">
+          
+          <Tabs className={classes.tabs} value={menu} onChange={handleChange} aria-label="menu">
           <Tab
             value="covid"
             label="COVID-19"
-            
           />
-          <Tab value="vaccince" label="Vaccination" />
+          <Tab value="vaccine" label="Vaccination" />
+          <Tab value="heart" label="" icon={<FavoriteIcon color="secondary"/>} />
           
         </Tabs>
-      
+      </Toolbar>
 
       </AppBar>
-      <div class={classes.spacer}>
-      &nbsp;
-      </div>
+      <div className={classes.spacer}>
+        
+              </div>
     </div>
   );
 }

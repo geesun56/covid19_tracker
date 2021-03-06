@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {NativeSelect, FormControl} from '@material-ui/core'
-
+import {NativeSelect, FormControl, TextField} from '@material-ui/core'
 import styles from './CountryPicker.module.css';
 import {fetchCountries} from '../../api';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 
 const CountryPicker = (props)  => {
     const [countries, setCountries] = useState([]);
@@ -23,10 +24,16 @@ const CountryPicker = (props)  => {
     return (
         <div>
             <FormControl className={styles.formControl}>
-                <NativeSelect  defaultValue="" onChange={(e) => handleCountryChange(e.target.value)}>
-                    <option value=""> Global</option>
-                    {countries.map((country) => (<option value={country}>{country}</option>))};
-                </NativeSelect>
+                <Autocomplete
+                id="combo-box-demo"
+                options={countries}
+                getOptionLabel={(option) => option + ''}
+                className={styles.searchBar}
+                renderInput={(params) => <TextField {...params} label="Select a country" variant="outlined" />}
+                onChange={(event, newValue) => {
+                    handleCountryChange(newValue);
+                  }}
+                />
             </FormControl>
         </div>
     )
